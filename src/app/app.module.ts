@@ -1,31 +1,23 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { MatIconModule } from "@angular/material/icon";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatIconModule } from '@angular/material/icon';
-
-import { AngularImageViewerModule } from '@hreimer/angular-image-viewer';
+import { AngularImageViewerModule } from "@saini22g/angular-image-viewer-v2";
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
-    BrowserModule,
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
     AngularImageViewerModule,
-    MatIconModule
+    MatIconModule,
   ],
-  exports: [
-    MatIconModule
-  ],
+  exports: [MatIconModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-
-export class AppModule { }
+export class AppModule {}

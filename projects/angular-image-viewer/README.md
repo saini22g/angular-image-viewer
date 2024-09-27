@@ -14,7 +14,7 @@ A configurable Angular image viewer component, compatible with Angular 11.x+
 
 ## Install
 
-``` npm install @hreimer/angular-image-viewer ```
+``` npm install @saini22g/angular-image-viewer-v2 ```
 
 Note: Refer to the official links how to set-up your app if you want to use FontAwesome Icons (https://github.com/FortAwesome/angular-fontawesome) or Material Icons (https://material.angular.io/guide/getting-started).
 
@@ -23,7 +23,7 @@ Note: Refer to the official links how to set-up your app if you want to use Font
 To use default configuration, simply import the ImageViewerModule into your module, like so:
 
 ```javascript
-import { AngularImageViewerModule } from "@hreimer/angular-image-viewer";
+import { AngularImageViewerModule } from "@saini22g/angular-image-viewer-v2";
 
 @NgModule({
   //...

@@ -1,11 +1,11 @@
 {
-  "name": "@hreimer/angular-image-viewer",
-  "version": "0.14.1",
+  "name": "@saini22g/angular-image-viewer-v2-v2",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hreimer/angular-image-viewer.git"
+    "url": "https://github.com/Saini22g/angular-image-viewer.git"
   },
-  "author": "Heinrich Reimer <heinrich.reimer@gmail.com>",
+  "author": "Sahil Saini",
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0",

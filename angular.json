@@ -166,5 +166,8 @@
       }
     }
   },
-  "defaultProject": "ngx-image-viewer"
+  "defaultProject": "ngx-image-viewer",
+  "cli": {
+    "analytics": "7229eaf4-cdb4-4f84-a78f-7638126879a4"
+  }
 }
