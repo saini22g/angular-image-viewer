@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
-import { AngularImageViewerModule } from "@saini22g/angular-image-viewer-v2";
+import { AngularImageViewerModule } from "@saini22g/angular-image-viewer";
 
 @NgModule({
   declarations: [AppComponent],

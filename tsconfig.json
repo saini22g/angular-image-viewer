@@ -19,10 +19,10 @@
       "dom"
     ],
     "paths": {
-      "@saini22g/angular-image-viewer-v2": [
+      "@saini22g/angular-image-viewer": [
         "dist/angular-image-viewer"
       ],
-      "@saini22g/angular-image-viewer-v2/*": [
+      "@saini22g/angular-image-viewer/*": [
         "dist/angular-image-viewer/*"
       ]
     }
