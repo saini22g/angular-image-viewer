@@ -27,7 +27,7 @@
     "@saini22g/angular-image-viewer": "file:projects/angular-image-viewer",
     "font-awesome": "^4.7.0",
     "rxjs": "^6.6.7",
-    "screenfull": "^5.0.2",
+    "screenfull": "^6.0.2",
     "tslib": "^2.5.0",
     "zone.js": "^0.12.0 || ^0.13.0"
   },
