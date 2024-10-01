@@ -1,15 +1,30 @@
-import { Component, OnInit, HostListener, Optional, Inject, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { ImageViewerConfig } from './models/image-viewer-config.model';
-import { CustomImageEvent } from './models/custom-image-event-model';
-import { DomSanitizer } from '@angular/platform-browser';
-
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Inject,
+  Input,
+  OnChanges,
+  OnInit,
+  Optional,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from "@angular/core";
+import { DomSanitizer } from "@angular/platform-browser";
+import { CustomImageEvent } from "./models/custom-image-event-model";
+import {
+  IImageSrc,
+  ImageViewerConfig,
+} from "./models/image-viewer-config.model";
 
 const DEFAULT_CONFIG: ImageViewerConfig = {
-  btnContainerClass: 'btn-container',
-  btnClass: 'default',
-  btnSubClass: 'material-icons',
+  btnContainerClass: "btn-container",
+  btnClass: "default",
+  btnSubClass: "material-icons",
   zoomFactor: 0.1,
-  containerBackgroundColor: '#ccc',
+  containerBackgroundColor: "#ccc",
   wheelZoom: false,
   allowFullscreen: true,
   allowKeyboardNavigation: true,
@@ -20,76 +35,39 @@ const DEFAULT_CONFIG: ImageViewerConfig = {
     rotateCounterClockwise: true,
     next: true,
     prev: true,
-    reset: true
+    reset: true,
   },
-  btnIcons: {
-    zoomIn: {
-      classes: 'fa fa-plus',
-      text: 'zoom_in'
-    },
-    zoomOut: {
-      classes: 'fa fa-minus',
-      text: 'zoom_out'
-    },
-    rotateClockwise:  {
-      classes: 'fa fa-repeat',
-      text: 'rotate_right'
-    },
-    rotateCounterClockwise:  {
-      classes: 'fa fa-undo',
-      text: 'rotate_left'
-    },
-    next:  {
-      classes: 'fa fa-arrow-right',
-      text: 'arrow_right'
-    },
-    prev:  {
-      classes: 'fa fa-arrow-left',
-      text: 'arrow_left'
-    },
-    fullscreen:  {
-      classes: 'fa fa-arrows-alt',
-      text: 'fullscreen'
-    },
-    reset:  {
-      classes: 'fa fa-undo',
-      text: 'restore'
-    },
-  }
 };
 
-
 @Component({
-  selector: 'angular-image-viewer',
-  templateUrl: './angular-image-viewer.component.html',
-  styleUrls: ['./angular-image-viewer.component.scss']
+  selector: "angular-image-viewer",
+  templateUrl: "./angular-image-viewer.component.html",
+  styleUrls: ["./angular-image-viewer.component.scss"],
 })
 export class AngularImageViewerComponent implements OnInit, OnChanges {
+  @ViewChild("imageElement") imageElement!: ElementRef;
+  @ViewChild("containerElement") containerElement!: ElementRef;
+  @Input() images: Array<IImageSrc>;
+  @Input() screenHeightOccupied: 0; // In Px
+  @Input() index = 0;
 
-  @Input()
-  src: string[];
+  @Input() config: ImageViewerConfig;
 
-  @Input()
-  screenHeightOccupied: 0;             // In Px
+  @Output() indexChange: EventEmitter<number> = new EventEmitter();
 
-  @Input()
-  index = 0;
+  @Output() configChange: EventEmitter<ImageViewerConfig> = new EventEmitter();
 
-  @Input()
-  config: ImageViewerConfig;
+  @Output() customImageEvent: EventEmitter<CustomImageEvent> =
+    new EventEmitter();
 
-  @Output()
-  indexChange: EventEmitter<number> = new EventEmitter();
+  styleHeight = "100%";
 
-  @Output()
-  configChange: EventEmitter<ImageViewerConfig> = new EventEmitter();
-
-  @Output()
-  customImageEvent: EventEmitter<CustomImageEvent> = new EventEmitter();
-
-  styleHeight = '100%';
-
-  public style = { transform: '', msTransform: '', oTransform: '', webkitTransform: '' };
+  public style = {
+    transform: "",
+    msTransform: "",
+    oTransform: "",
+    webkitTransform: "",
+  };
   public fullscreen = false;
   public loading = true;
   private scale = 1;
@@ -100,12 +78,14 @@ export class AngularImageViewerComponent implements OnInit, OnChanges {
   private prevY: number;
   private hovered = false;
 
-  constructor(@Optional() @Inject('config') public moduleConfig: ImageViewerConfig,
-              private sanitizer: DomSanitizer) { }
+  constructor(
+    @Optional() @Inject("config") public moduleConfig: ImageViewerConfig,
+    private sanitizer: DomSanitizer
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.screenHeightOccupied) {
-      this.styleHeight = 'calc(100% - ' + this.screenHeightOccupied + 'px)';
+      this.styleHeight = "calc(100% - " + this.screenHeightOccupied + "px)";
       // console.log('Style Height:', this.styleHeight);
     }
   }
@@ -116,9 +96,9 @@ export class AngularImageViewerComponent implements OnInit, OnChanges {
     this.triggerConfigBinding();
   }
 
-  @HostListener('window:keyup.ArrowRight', ['$event'])
+  @HostListener("window:keyup.ArrowRight", ["$event"])
   nextImage(event) {
-    if (this.canNavigate(event) && this.index < this.src.length - 1) {
+    if (this.canNavigate(event) && this.index < this.images.length - 1) {
       this.loading = true;
       this.index++;
       this.triggerIndexBinding();
@@ -126,7 +106,7 @@ export class AngularImageViewerComponent implements OnInit, OnChanges {
     }
   }
 
-  @HostListener('window:keyup.ArrowLeft', ['$event'])
+  @HostListener("window:keyup.ArrowLeft", ["$event"])
   prevImage(event) {
     if (this.canNavigate(event) && this.index > 0) {
       this.loading = true;
@@ -137,13 +117,13 @@ export class AngularImageViewerComponent implements OnInit, OnChanges {
   }
 
   zoomIn() {
-    this.scale *= (1 + this.config.zoomFactor);
+    this.scale *= 1 + this.config.zoomFactor;
     this.updateStyle();
   }
 
   zoomOut() {
     if (this.scale > this.config.zoomFactor) {
-      this.scale /= (1 + this.config.zoomFactor);
+      this.scale /= 1 + this.config.zoomFactor;
     }
     this.updateStyle();
   }
@@ -166,12 +146,10 @@ export class AngularImageViewerComponent implements OnInit, OnChanges {
   }
 
   onLoad(url) {
-    // console.log('Loading Image Done:', url);
     this.loading = false;
   }
 
   onLoadStart(url) {
-    // console.log('Loading Image:', url);
     this.loading = true;
   }
 
@@ -180,10 +158,12 @@ export class AngularImageViewerComponent implements OnInit, OnChanges {
   }
 
   onDragOver(evt) {
-    this.translateX += (evt.clientX - this.prevX);
-    this.translateY += (evt.clientY - this.prevY);
+    this.translateX += evt.clientX - this.prevX;
+    this.translateY += evt.clientY - this.prevY;
     this.prevX = evt.clientX;
     this.prevY = evt.clientY;
+
+    // Update the style with the new translation values
     this.updateStyle();
   }
 
@@ -210,8 +190,10 @@ export class AngularImageViewerComponent implements OnInit, OnChanges {
     this.configChange.next(this.config);
   }
 
-  fireCustomEvent(name, imageIndex) {
-    this.customImageEvent.emit(new CustomImageEvent(name, imageIndex));
+  fireCustomEvent(name: string, uniqueId: string, imageIndex: number) {
+    this.customImageEvent.emit(
+      new CustomImageEvent(name, uniqueId, imageIndex)
+    );
   }
 
   reset() {
@@ -222,18 +204,20 @@ export class AngularImageViewerComponent implements OnInit, OnChanges {
     this.updateStyle();
   }
 
-  @HostListener('mouseover')
+  @HostListener("mouseover")
   onMouseOver() {
     this.hovered = true;
   }
 
-  @HostListener('mouseleave')
+  @HostListener("mouseleave")
   onMouseLeave() {
     this.hovered = false;
   }
 
   private canNavigate(event: any) {
-    return event == null || (this.config.allowKeyboardNavigation && this.hovered);
+    return (
+      event == null || (this.config.allowKeyboardNavigation && this.hovered)
+    );
   }
 
   private updateStyle() {
@@ -243,16 +227,21 @@ export class AngularImageViewerComponent implements OnInit, OnChanges {
     this.style.oTransform = this.style.transform;
   }
 
-  private mergeConfig(defaultValues: ImageViewerConfig, overrideValues: ImageViewerConfig): ImageViewerConfig {
+  private mergeConfig(
+    defaultValues: ImageViewerConfig,
+    overrideValues: ImageViewerConfig
+  ): ImageViewerConfig {
     let result: ImageViewerConfig = { ...defaultValues };
     if (overrideValues) {
       result = { ...defaultValues, ...overrideValues };
 
       if (overrideValues.btnIcons) {
-        result.btnIcons = { ...defaultValues.btnIcons, ...overrideValues.btnIcons };
+        result.btnIcons = {
+          ...defaultValues.btnIcons,
+          ...overrideValues.btnIcons,
+        };
       }
     }
     return result;
   }
-
 }

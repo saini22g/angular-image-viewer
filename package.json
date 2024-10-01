@@ -25,7 +25,6 @@
     "@angular/platform-browser-dynamic": "^13.0.0 || ^14.0.0",
     "@angular/router": "^13.0.0 || ^14.0.0",
     "@saini22g/angular-image-viewer": "file:projects/angular-image-viewer",
-    "font-awesome": "^4.7.0",
     "rxjs": "^6.6.7",
     "screenfull": "^5.0.2",
     "tslib": "^2.5.0",

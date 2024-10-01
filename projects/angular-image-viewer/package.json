@@ -3,7 +3,7 @@
   "version": "2.0.2",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Saini22g/angular-image-viewer.git"
+    "url": "https://github.com/saini22g/angular-image-viewer.git"
   },
   "author": "Sahil Saini",
   "license": "MIT",
@@ -12,7 +12,6 @@
     "@angular/core": "^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0"
   },
   "optionalDependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.4",
     "@angular/cdk": "^11.0.0 || ^12.0.0 || ^13.0.0 || ^13.0.0",
     "@angular/material": "^11.0.0 || ^12.0.0 || ^13.0.0 || ^13.0.0"
   },

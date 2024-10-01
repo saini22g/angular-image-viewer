@@ -1,9 +1,11 @@
 export class CustomImageEvent {
-    name: string;
-    imageIndex: number;
+  name: string;
+  imageIndex: number;
+  uniqueId: string;
 
-    constructor(name, imageIndex) {
-        this.name = name;
-        this.imageIndex = imageIndex;
-    }
+  constructor(name: string, uniqueId: string, imageIndex: number) {
+    this.name = name;
+    this.uniqueId = uniqueId;
+    this.imageIndex = imageIndex;
+  }
 }
